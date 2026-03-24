@@ -20,40 +20,40 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Movies
-        
-   // GET: Movies
-public async Task<IActionResult> Index(string movieGenre, string searchString)
-{
-    if (_context.Movie == null)
-    {
-        return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
-    }
 
-    // Use LINQ to get list of genres.
-    IQueryable<string> genreQuery = from m in _context.Movie
-                                    orderby m.Genre
-                                    select m.Genre;
-    var movies = from m in _context.Movie
-                 select m;
+        // GET: Movies
+        public async Task<IActionResult> Index(string movieGenre, string searchString)
+        {
+            if (_context.Movie == null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+            }
 
-    if (!string.IsNullOrEmpty(searchString))
-    {
-        movies = movies.Where(s => s.Title!.ToUpper().Contains(searchString.ToUpper()));
-    }
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Movie
+                                            orderby m.Genre
+                                            select m.Genre;
+            var movies = from m in _context.Movie
+                         select m;
 
-    if (!string.IsNullOrEmpty(movieGenre))
-    {
-        movies = movies.Where(x => x.Genre == movieGenre);
-    }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title!.ToUpper().Contains(searchString.ToUpper()));
+            }
 
-    var movieGenreVM = new MovieGenreViewModel
-    {
-        Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-        Movies = await movies.ToListAsync()
-    };
+            if (!string.IsNullOrEmpty(movieGenre))
+            {
+                movies = movies.Where(x => x.Genre == movieGenre);
+            }
 
-    return View(movieGenreVM);
-}
+            var movieGenreVM = new MovieGenreViewModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Movies = await movies.ToListAsync()
+            };
+
+            return View(movieGenreVM);
+        }
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -183,4 +183,5 @@ public async Task<IActionResult> Index(string movieGenre, string searchString)
             return _context.Movie.Any(e => e.Id == id);
         }
     }
+
 }

@@ -3,11 +3,15 @@ using System.Text.Encodings.Web;
 
 namespace MvcMovie.Controllers;
 
-public class HelloWorldController : Controller
+public class HomeController : Controller
 {
     // 
     // GET: /HelloWorld/
     public IActionResult Index()
+    {
+        return View();
+    }
+    public IActionResult Privacy()
     {
         return View();
     }
